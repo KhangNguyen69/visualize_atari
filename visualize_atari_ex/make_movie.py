@@ -10,7 +10,7 @@ import matplotlib.animation as manimation
 import gym, os, sys, time, argparse
 
 sys.path.append('..')
-from visualize_atari import *
+from visualize_atari_ex import *
 
 def make_movie(env_name, checkpoint='*.tar', num_frames=20, first_frame=0, resolution=75, \
                 save_dir='./movies/', density=5, radius=5, prefix='default', overfit_mode=False):
