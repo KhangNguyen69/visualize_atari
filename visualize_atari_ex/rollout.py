@@ -15,6 +15,7 @@ import numpy as np
 from PIL import Image
 
 # prepro = lambda img: imresize(img[35:195].mean(2), (80,80)).astype(np.float32).reshape(1,80,80)/255.
+# fix bug
 prepro = lambda img: np.array(Image.fromarray(img[35:195].mean(2)).resize((80, 80)))\
                          .astype(np.float32).reshape(1, 80, 80) / 255.
 

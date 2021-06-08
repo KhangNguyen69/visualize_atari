@@ -7,7 +7,6 @@ warnings.filterwarnings('ignore')  # mute warnings, live dangerously ;)
 
 import torch
 from torch.autograd import Variable
-import torch.nn.functional as F
 
 import numpy as np
 from scipy.ndimage.filters import gaussian_filter
@@ -56,6 +55,7 @@ def score_frame(model, history, ix, r, d, interp_func, mode='actor'):
         for j in range(0, 80, d):
             mask = get_mask(center=[i, j], size=[80, 80], r=r)
             l = run_through_model(model, history, ix, interp_func, mask=mask, mode=mode)
+            # fix bug
             scores[int(i / d), int(j / d)] = (L - l).pow(2).sum().mul_(.5).data.item()
     pmax = scores.max()
     # scores = imresize(scores, size=[80,80], interp='bilinear').astype(np.float32)
@@ -68,6 +68,7 @@ def saliency_on_atari_frame(saliency, atari, fudge_factor, channel=2, sigma=0):
     # slightly...sigma adjusts the radius of that blur
     pmax = saliency.max()
     # S = imresize(saliency, size=[160,160], interp='bilinear').astype(np.float32)
+    # fix bug
     S = np.array(Image.fromarray(saliency).resize((160, 160), resample=Image.BILINEAR)).astype(np.float32)
     S = S if sigma == 0 else gaussian_filter(S, sigma=sigma)
     S -= S.min()
@@ -82,13 +83,13 @@ def saliency_on_atari_frame(saliency, atari, fudge_factor, channel=2, sigma=0):
 def get_env_meta(env_name):
     meta = {}
     if env_name == "Pong-v0":
-        meta['critic_ff'] = 600;
+        meta['critic_ff'] = 600
         meta['actor_ff'] = 500
     elif env_name == "Breakout-v0":
-        meta['critic_ff'] = 600;
+        meta['critic_ff'] = 600
         meta['actor_ff'] = 300
     elif env_name == "SpaceInvaders-v0":
-        meta['critic_ff'] = 400;
+        meta['critic_ff'] = 400
         meta['actor_ff'] = 400
     else:
         print('environment "{}" not supported'.format(env_name))
