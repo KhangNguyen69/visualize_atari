@@ -36,7 +36,7 @@ def rollout(model, env, max_ep_len=3, render=False):
         action = prob.max(1)[1].data  # prob.multinomial().data[0] #
         obs, reward, done, expert_policy = env.step(action.numpy()[0])
         if render: env.render()
-        state = torch.Tensor(prepro(obs));
+        state = torch.Tensor(prepro(obs))
         epr += reward
 
         # save info!

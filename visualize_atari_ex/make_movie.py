@@ -1,14 +1,16 @@
 # Visualizing and Understanding Atari Agents | Sam Greydanus | 2017 | MIT License
 
 from __future__ import print_function
-import warnings ; warnings.filterwarnings('ignore') # mute warnings, live dangerously
+import warnings
+
+warnings.filterwarnings('ignore') # mute warnings, live dangerously
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl ; mpl.use("Agg")
 import matplotlib.animation as manimation
 
 import gym, os, sys, time, argparse
-
+import torch
 sys.path.append('..')
 from visualize_atari_ex import *
 
@@ -16,6 +18,8 @@ def make_movie(env_name, checkpoint='*.tar', num_frames=20, first_frame=0, resol
                 save_dir='./movies/', density=5, radius=5, prefix='default', overfit_mode=False):
     
     # set up dir variables and environment
+    if not os.path.exists(save_dir):
+        os.mkdir(save_dir)
     load_dir = '{}{}/'.format('overfit-' if overfit_mode else '', env_name.lower())
     meta = get_env_meta(env_name)
     env = gym.make(env_name) if not overfit_mode else OverfitAtari(env_name, load_dir+'expert/', seed=0) # make a seeded env
@@ -65,7 +69,7 @@ if __name__ == '__main__':
     parser.add_argument('-e', '--env', default='Breakout-v0', type=str, help='gym environment')
     parser.add_argument('-d', '--density', default=5, type=int, help='density of grid of gaussian blurs')
     parser.add_argument('-r', '--radius', default=5, type=int, help='radius of gaussian blur')
-    parser.add_argument('-f', '--num_frames', default=20, type=int, help='number of frames in movie')
+    parser.add_argument('-f', '--num_frames', default=20, type=int, help='number frames in movie')
     parser.add_argument('-i', '--first_frame', default=150, type=int, help='index of first frame')
     parser.add_argument('-dpi', '--resolution', default=75, type=int, help='resolution (dpi)')
     parser.add_argument('-s', '--save_dir', default='./movies/', type=str, help='dir to save agent logs and checkpoints')

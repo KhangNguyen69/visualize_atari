@@ -1,10 +1,12 @@
 from __future__ import print_function
 import warnings;
 
+import numpy as np
+
 warnings.filterwarnings('ignore')  # mute warnings, live dangerously
 
 import matplotlib.pyplot as plt
-import matplotlib as mpl;
+import matplotlib as mpl
 
 mpl.use("Agg")
 import matplotlib.animation as manimation
@@ -19,12 +21,18 @@ import atari_py
 sys.path.append('..')
 from visualize_atari_ex import *
 
+env_name = 'Breakout-v0'
+save_dir = 'figures/'
+
+
 
 def jacobian(model, layer, top_dh, X):
-    global top_h_;
+    global top_h_
     top_h_ = None
 
-    def hook_top_h(m, i, o): global top_h_; top_h_ = o.clone()
+    def hook_top_h(m, i, o):
+        global top_h_
+        top_h_ = o.clone()
 
     hook1 = layer.register_forward_hook(hook_top_h)
     _ = model(X)  # do a forward pass so the forward hooks can be called
@@ -36,9 +44,6 @@ def jacobian(model, layer, top_dh, X):
 
 
 def main():
-    env_name = 'Breakout-v0'
-    save_dir = 'figures/'
-
     print("set up dir variables and environment...")
     load_dir = '{}/'.format(env_name.lower())
     meta = get_env_meta(env_name)
@@ -56,10 +61,14 @@ def main():
     # frame_ix = 1404
     frame_ix = 1307
     plt.imshow(history['ins'][frame_ix])
+    plt.imsave(save_dir + "frame_{}.jpg".format(frame_ix), history['ins'][frame_ix])
     for a in f.axes:
         a.get_xaxis().set_visible(False)
     a.get_yaxis().set_visible(False)
-    plt.show()
+    if not os.path.exists(save_dir):
+        os.mkdir(save_dir)
+    f.savefig(save_dir + "figure_{}.jpg".format(frame_ix))
+    # plt.imshow(f)
 
     # Get Jacobian saliency map
     # derivative is simply the output policy distribution
@@ -99,7 +108,7 @@ def main():
 
     # Plot side-by-side
 
-    f = plt.figure(figsize=[11, 5 * 1.3], dpi=75)
+    f = plt.figure(figsize=[11, 5 * 1.3], dpi=600)
 
     plt.subplot(1, 2, 1)
     plt.imshow(jacobian_map)
@@ -110,7 +119,8 @@ def main():
     plt.title('Ours', fontsize=30)
 
     for a in f.axes: a.get_xaxis().set_visible(False); a.get_yaxis().set_visible(False)
-    plt.show()  # ; f.savefig('./figures/jacobian-vs-perturb.png', bbox_inches='tight')
+    plt.show()
+    f.savefig('./figures/jacobian-vs-perturb.png', bbox_inches='tight')
 
 
 if __name__ == '__main__':
