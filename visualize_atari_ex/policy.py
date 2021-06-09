@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Visualizing and Understanding Atari Agents | Sam Greydanus | 2017 | MIT License
 
 from __future__ import print_function
@@ -94,4 +93,3 @@ class NNPolicy(torch.nn.Module):  # an actor-critic neural network
             self.load_state_dict(torch.load(paths[ix]))
         print("\tno saved models") if step is 0 else print("\tloaded model: {}".format(paths[ix]))
         return step
->>>>>>> a064955d16bf5816748adb9bbef155f90d914f6f
