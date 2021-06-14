@@ -1,18 +1,16 @@
 # Visualizing and Understanding Atari Agents | Sam Greydanus | 2017 | MIT License
 
 from __future__ import print_function
-import warnings;
+
+import warnings
+
+from visualize_atari_ex import NNPolicy
 
 warnings.filterwarnings('ignore')  # mute warnings, live dangerously ;)
 
-import torch
-from torch.autograd import Variable
-import torch.nn.functional as F
+import sys
 
-import gym, sys
-import numpy as np
 # from scipy.misc import imresize # preserves single-pixel info _unlike_ img = img[::2,::2]
-from PIL import Image
 
 sys.path.append('..')
 from visualize_atari_ex import *

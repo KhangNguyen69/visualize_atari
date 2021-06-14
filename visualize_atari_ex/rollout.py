@@ -1,12 +1,12 @@
 # Visualizing and Understanding Atari Agents | Sam Greydanus | 2017 | MIT License
 
 from __future__ import print_function
-import warnings;
+
+import warnings
 
 warnings.filterwarnings('ignore')  # mute warnings, live dangerously ;)
 
 import torch
-import torch.nn as nn
 from torch.autograd import Variable
 import torch.nn.functional as F
 

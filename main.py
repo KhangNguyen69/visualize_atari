@@ -1,29 +1,17 @@
 from __future__ import print_function
-import warnings;
 
-import numpy as np
+import warnings
 
 warnings.filterwarnings('ignore')  # mute warnings, live dangerously
 
-import matplotlib.pyplot as plt
 import matplotlib as mpl
-
 mpl.use("Agg")
-import matplotlib.animation as manimation
-
-import torch
-from torch.autograd import Variable
-import torch.nn.functional as F
-
-import gym, os, sys, time, argparse
-import atari_py
-
+import sys
 sys.path.append('..')
 from visualize_atari_ex import *
 
 env_name = 'Breakout-v0'
 save_dir = 'figures/'
-
 
 
 def jacobian(model, layer, top_dh, X):
@@ -120,7 +108,7 @@ def main():
 
     for a in f.axes: a.get_xaxis().set_visible(False); a.get_yaxis().set_visible(False)
     plt.show()
-    f.savefig('./figures/jacobian-vs-perturb.png', bbox_inches='tight')
+    f.savefig('./figures/jacobian-vs-perturb-{}-{}-{}.png'.format(frame_ix, radius, density), bbox_inches='tight')
 
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 # Visualizing and Understanding Atari Agents | Sam Greydanus | 2017 | MIT License
 
 from __future__ import print_function
-import warnings;
+import warnings
 
 warnings.filterwarnings('ignore')  # mute warnings, live dangerously ;)
 
@@ -76,7 +76,7 @@ def saliency_on_atari_frame(saliency, atari, fudge_factor, channel=2, sigma=0):
     I = atari.astype('uint16')
     I[35:195, :, channel] += S.astype('uint16')
     I = I.clip(1, 255).astype('uint8')
-    print("123")
+    # print("123")
     return I
 
 
