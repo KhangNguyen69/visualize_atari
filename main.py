@@ -1,12 +1,19 @@
 from __future__ import print_function
+import warnings;
 
-import warnings
+import numpy as np
 
 warnings.filterwarnings('ignore')  # mute warnings, live dangerously
 
+import matplotlib.pyplot as plt
 import matplotlib as mpl
+
 mpl.use("Agg")
+import gym
+import os
 import sys
+import atari_py
+
 sys.path.append('..')
 from visualize_atari_ex import *
 
@@ -47,7 +54,7 @@ def main():
     history = rollout(model, env, max_ep_len=3e3)
     f = plt.figure(figsize=[3, 3 * 1.3])
     # frame_ix = 1404
-    frame_ix = 1307
+    frame_ix = 1308
     plt.imshow(history['ins'][frame_ix])
     plt.imsave(save_dir + "frame_{}.jpg".format(frame_ix), history['ins'][frame_ix])
     for a in f.axes:
